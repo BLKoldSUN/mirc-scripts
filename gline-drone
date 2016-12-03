@@ -6,7 +6,17 @@
 ;; Mare atentie: unele aplicatii precum AndroIrc genereaza automat nickurile si unii utilizatori pot primi GLine automat.
 ;; Link util pentru modificarea scriptului: http://regexr.com/
 
+#blkoldsun_drone off
 on !@*:join:#:{ if $regex($nick,/\b((\w){1}(\d){4})\b/) { gline $nick Drona gasita } }
-on !@*:join:#:{ if $regex($address($nick,0),/\b((\w){1}(\d){3,4})\b/) { gline $nick Drona gasita } }
-on !@*:join:#:{ if $regex($address($nick,0),/\g((\w){1}(\d){3,4})\b/) { gline $nick Drona gasita } }
-on !@*:join:#:{ if $regex($address($nick,0),/\b((\q){1}(\d){3,4})\b/) { gline $nick Drona gasita } }
+on !@*:join:#:{ if $regex($address($nick,0),/\b((\w){1}(\d){3,4})\b/) { gline $nick Drona! } }
+on !@*:join:#:{ if $regex($address($nick,0),/\g((\w){1}(\d){3,4})\b/) { gline $nick Drona! } }
+on !@*:join:#:{ if $regex($address($nick,0),/\b((\q){1}(\d){3,4})\b/) { gline $nick Drona! } }
+#blkoldsun_drone end
+
+;; Bonus meniu pentru script (menu channel, status, nicklist, query, menubar)
+menu channel {
+  tools
+  .$iif($group(#blkoldsun_drone) == On,$style(1)) Anti drone
+  ..$iif($group(#blkoldsun_drone) == On,$style(2)) On: .enable #blkoldsun_drone
+  ..$iif($group(#blkoldsun_drone) == Off,$style(2)) Off: .disable #blkoldsun_drone
+}
