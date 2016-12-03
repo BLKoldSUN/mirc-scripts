@@ -1,0 +1,12 @@
+;; Scriptul are la baza sintaxa REGEX si va da gline dronelor de tipul n/w/q/b/g + random number
+;; exemple: n23534634; b6557y63; w436435, etc
+;; Scriptul se va copia in Tools - Script editor - New script
+;; * Scriptul poate fi utilizat numai daca utilizatorul are deja accesul de IRCOP pe retea
+
+;; Mare atentie: unele aplicatii precum AndroIrc genereaza automat nickurile si unii utilizatori pot primi GLine automat.
+;; Link util pentru modificarea scriptului: http://regexr.com/
+
+on !@*:join:#:{ if $regex($nick,/\b((\w){1}(\d){4})\b/) { gline $nick Drona gasita } }
+on !@*:join:#:{ if $regex($address($nick,0),/\b((\w){1}(\d){3,4})\b/) { gline $nick Drona gasita } }
+on !@*:join:#:{ if $regex($address($nick,0),/\g((\w){1}(\d){3,4})\b/) { gline $nick Drona gasita } }
+on !@*:join:#:{ if $regex($address($nick,0),/\b((\q){1}(\d){3,4})\b/) { gline $nick Drona gasita } }
